@@ -21,7 +21,7 @@ setup(
     description="Amber Data Utils",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/gitlab-data/gitlab-data-utils",
+    url="https://github.com/strategydata/amber-data-utils",
     packages=find_packages(),
     install_requires=requires,
 )

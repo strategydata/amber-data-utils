@@ -3,7 +3,7 @@ import json
 import csv
 import pandas as pd
 
-from gitlabdata.orchestration_utils import (
+from amberdata.orchestration_utils import (
     snowflake_engine_factory,
     query_executor,
     dataframe_uploader,
@@ -55,12 +55,12 @@ class TestSnowflakeEngineFactory:
         Tests that a connection can be made.
         """
 
-        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "GITLAB")
+        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "AMBERDATA")
         try:
             connection = engine.connect()
             result = connection.execute("select current_schema()").fetchone()[0]
             print(result)
-            assert result == "GITLAB"
+            assert result == "AMBERDATA"
         finally:
             connection.close()
             engine.dispose()
@@ -78,7 +78,7 @@ class TestQueryExecutor:
         Tests that a connection can be made.
         """
 
-        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "GITLAB")
+        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "AMBERDATA")
         query = "select current_version()"
         results = query_executor(engine, query)
         assert type(results[0][0]) == str
@@ -96,7 +96,7 @@ class TestDataFrameUploader:
         Tests that a connection can be made.
         """
 
-        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "GITLAB")
+        engine = snowflake_engine_factory(config_dict, "SYSADMIN", "AMBERDATA")
         table = "test_table"
         dummy_dict = {"foo": [1, 2, 3], "bar": [1, 2, 3]}
 
@@ -138,12 +138,12 @@ class TestSnowflakeStageLoadCopyRemove:
         Set up the necessary components for testing.
         """
         # create a Snowflake engine and connection
-        self.engine = snowflake_engine_factory(self.env_vars, "SYSADMIN", "GITLAB")
+        self.engine = snowflake_engine_factory(self.env_vars, "SYSADMIN", "AMBERDATA")
         self.connection = self.engine.connect()
 
         # create a second engine just for snowflake_stage_load_copy_remove
         self.upload_engine = snowflake_engine_factory(
-            self.env_vars, "SYSADMIN", "GITLAB"
+            self.env_vars, "SYSADMIN", "AMBERDATA"
         )
 
         # create stage for testing

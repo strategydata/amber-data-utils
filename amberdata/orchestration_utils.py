@@ -162,7 +162,7 @@ def get_env_from_profile(
     # Open the file and load the file
     with open(profile_location) as f:
         data = yaml.load(f, Loader=SafeLoader)
-        data = data.get("gitlab-snowflake")
+        data = data.get("github-snowflake")
         return data.get("outputs").get(environment)
 
 

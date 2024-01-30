@@ -14,7 +14,7 @@ trigger_data_image_push:
     - master
 
 include:
-    - local: .gitlab/ci/publish.gitlab-ci.yml
+    - local: .github/ci/publish.github-ci.yml
 
 
 # ======
