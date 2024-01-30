@@ -1,0 +1,57 @@
+stages:
+  - review
+  - deploy
+  - publish
+
+trigger_data_image_push:
+  stage: deploy
+  image: byrnedo/alpine-curl
+  tags:
+    - housekeeping
+  script:
+    - curl --request POST --form "token=$DATA_INFRA_CI_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/9800411/trigger/pipeline
+  only:
+    - master
+
+include:
+    - local: .gitlab/ci/publish.gitlab-ci.yml
+
+
+# ======
+# Python Code Checks
+# ======
+
+.python_check: &python_check
+  stage: review
+  image: registry.gitlab.com/gitlab-data/data-image/data-image:latest
+  tags:
+    - analytics
+  only:
+    changes:
+      - "**/*.py"
+    refs:
+      - merge_requests
+  allow_failure: true
+
+python_black:
+  <<: *python_check
+  script:
+    - pip install black
+    - black --check .
+
+python_pylint:
+  <<: *python_check
+  script:
+    - pylint ../analytics/ --ignore=dags --disable=C --disable=W1203 --disable=W1202 --reports=y --exit-zero
+  when: manual
+
+python_complexity:
+  <<: *python_check
+  script:
+    -  xenon --max-absolute B --max-modules A --max-average A . 
+
+python_pytest:
+  <<: *python_check
+  script:
+    - pytest -vv
+
