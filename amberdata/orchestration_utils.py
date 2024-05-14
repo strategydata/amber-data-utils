@@ -78,7 +78,7 @@ def snowflake_engine_factory(
     Create a database engine from a dictionary of database info.
     """
 
-    # Figure out which vars to grab
+    
     role_dict = {
         "SYSADMIN": {
             "USER": "SNOWFLAKE_USER",
