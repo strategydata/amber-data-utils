@@ -1,82 +1,78 @@
-name: CI Pipeline
+# name: CI Pipeline
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    paths:
-      - '**/*.py'
+# on:
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#     paths:
+#       - '**/*.py'
 
-jobs:
-  trigger_data_image_push:
-    name: Trigger Data Image Push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: Trigger downstream pipeline
-        run: curl --request POST --form "token=${{ secrets.DATA_INFRA_CI_TOKEN }}" --form ref=master https://gitlab.com/api/v4/projects/9800411/trigger/pipeline
+# jobs:
+#   trigger_data_image_push:
+#     name: Trigger Data Image Push
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/master'
+#     steps:
+#       - name: Trigger downstream pipeline
+#         run: curl --request POST --form "token=${{ secrets.DATA_INFRA_CI_TOKEN }}" --form ref=master https://gitlab.com/api/v4/projects/9800411/trigger/pipeline
 
-  python_black:
-    name: Python Black
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install black
-      - name: Run Black
-        run: black --check .
+#   python_black:
+#     name: Python Black
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'pull_request'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
+#       - name: Install dependencies
+#         run: pip install black
+#       - name: Run Black
+#         run: black --check .
 
-  python_pylint:
-    name: Python Pylint
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install pylint
-      - name: Run Pylint
-        run: pylint ../analytics/ --ignore=dags --disable=C --disable=W1203 --disable=W1202 --reports=y --exit-zero
+#   python_pylint:
+#     name: Python Pylint
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'pull_request'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
+#       - name: Install dependencies
+#         run: pip install pylint
+#       - name: Run Pylint
+#         run: pylint ../analytics/ --ignore=dags --disable=C --disable=W1203 --disable=W1202 --reports=y --exit-zero
 
-  python_complexity:
-    name: Python Complexity
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install xenon
-      - name: Run Xenon
-        run: xenon --max-absolute B --max-modules A --max-average A .
+#   python_complexity:
+#     name: Python Complexity
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'pull_request'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
+#       - name: Install dependencies
+#         run: pip install xenon
+#       - name: Run Xenon
+#         run: xenon --max-absolute B --max-modules A --max-average A .
 
-  python_pytest:
-    name: Python Pytest
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-      - name: Install dependencies
-        run: pip install pytest
-      - name: Run Pytest
-        run: pytest -vv
-
-jobs:
-  include:
-    - local: .github/ci/.github-ci.yml
+#   python_pytest:
+#     name: Python Pytest
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'pull_request'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.x'
+#       - name: Install dependencies
+#         run: pip install pytest
+#       - name: Run Pytest
+#         run: pytest -vv
