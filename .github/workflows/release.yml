@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distributions 📦 to PyPI tag
+name: Publish Python 🐍 distributions 📦 to PyPI 0.1.3
 
 on:
   push:
