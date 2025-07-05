@@ -14,8 +14,8 @@ requires = [
 
 
 setup(
-    name="amberdata",
-    version="{{VERSION_PLACEHOLDER}}",
+    name="amber-data-utils",
+    version="0.1.3",
     author="Amber Strategy Data",
     author_email="amber.strategy.data@gmail.com",
     description="Amber Data Utils",

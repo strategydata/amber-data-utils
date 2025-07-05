@@ -12,4 +12,4 @@
 /build/
 /dist/
 .pre-commit-config.yaml
-
+poetry.lock
